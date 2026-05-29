@@ -1,0 +1,22 @@
+# Xcode build files
+build/
+DerivedData/
+
+# Generated Xcode Project (regenerated via xcodegen)
+*.xcodeproj
+
+# Xcode user state & settings
+*.xcuserstate
+*.xcuserdatad
+xcuserdata/
+*.xccheckout
+*.xcscmblueprint
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
