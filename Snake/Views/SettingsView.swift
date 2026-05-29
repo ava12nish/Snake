@@ -149,54 +149,57 @@ struct SettingsView: View {
                                 .padding(.horizontal, 8)
                             
                             VStack(spacing: 16) {
-                                HStack(spacing: 12) {
-                                    // Theme default option
-                                    Button(action: {
-                                        HapticsService.shared.playSelection()
-                                        StorageService.shared.customSnakeColorHex = nil
-                                        viewModel.loadSettingsAndStats()
-                                    }) {
-                                        let isThemeDefault = StorageService.shared.customSnakeColorHex == nil
-                                        
-                                        VStack(spacing: 6) {
-                                            Image(systemName: "paintpalette.fill")
-                                                .font(.system(size: 18))
-                                                .foregroundColor(isThemeDefault ? viewModel.currentTheme.boardColor : .white)
-                                            Text("Theme")
-                                                .font(.system(size: 10, weight: .bold))
-                                                .foregroundColor(isThemeDefault ? viewModel.currentTheme.boardColor : .white)
-                                        }
-                                        .frame(width: 50, height: 50)
-                                        .background(isThemeDefault ? viewModel.currentTheme.primaryColor : Color.white.opacity(0.05))
-                                        .clipShape(Circle())
-                                        .overlay(
-                                            Circle().stroke(Color.white.opacity(0.15), lineWidth: 1)
-                                        )
-                                    }
-                                    
-                                    // Custom preset colors
-                                    ForEach(colorPresets, id: \.0) { hex, name in
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(spacing: 12) {
+                                        // Theme default option
                                         Button(action: {
                                             HapticsService.shared.playSelection()
-                                            StorageService.shared.customSnakeColorHex = hex
+                                            StorageService.shared.customSnakeColorHex = nil
                                             viewModel.loadSettingsAndStats()
                                         }) {
-                                            let isSelected = StorageService.shared.customSnakeColorHex == hex
+                                            let isThemeDefault = StorageService.shared.customSnakeColorHex == nil
                                             
-                                            Circle()
-                                                .fill(Color(hex: hex))
-                                                .frame(width: 50, height: 50)
-                                                .overlay(
-                                                    Circle()
-                                                        .stroke(Color.white, lineWidth: isSelected ? 3.0 : 0.0)
-                                                        .shadow(radius: 4)
-                                                )
-                                                .scaleEffect(isSelected ? 1.08 : 1.0)
-                                                .animation(.spring(response: 0.2, dampingFraction: 0.6), value: isSelected)
+                                            VStack(spacing: 6) {
+                                                Image(systemName: "paintpalette.fill")
+                                                    .font(.system(size: 18))
+                                                    .foregroundColor(isThemeDefault ? viewModel.currentTheme.boardColor : .white)
+                                                Text("Theme")
+                                                    .font(.system(size: 10, weight: .bold))
+                                                    .foregroundColor(isThemeDefault ? viewModel.currentTheme.boardColor : .white)
+                                            }
+                                            .frame(width: 50, height: 50)
+                                            .background(isThemeDefault ? viewModel.currentTheme.primaryColor : Color.white.opacity(0.05))
+                                            .clipShape(Circle())
+                                            .overlay(
+                                                Circle().stroke(Color.white.opacity(0.15), lineWidth: 1)
+                                            )
+                                        }
+                                        
+                                        // Custom preset colors
+                                        ForEach(colorPresets, id: \.0) { hex, name in
+                                            Button(action: {
+                                                HapticsService.shared.playSelection()
+                                                StorageService.shared.customSnakeColorHex = hex
+                                                viewModel.loadSettingsAndStats()
+                                            }) {
+                                                let isSelected = StorageService.shared.customSnakeColorHex == hex
+                                                
+                                                Circle()
+                                                    .fill(Color(hex: hex))
+                                                    .frame(width: 50, height: 50)
+                                                    .overlay(
+                                                        Circle()
+                                                            .stroke(Color.white, lineWidth: isSelected ? 3.0 : 0.0)
+                                                            .shadow(radius: 4)
+                                                    )
+                                                    .scaleEffect(isSelected ? 1.08 : 1.0)
+                                                    .animation(.spring(response: 0.2, dampingFraction: 0.6), value: isSelected)
+                                            }
                                         }
                                     }
+                                    .padding(.horizontal, 4)
+                                    .padding(.vertical, 4)
                                 }
-                                .padding(.horizontal, 4)
                                 
                                 Text("Personalize your snake with custom glow skin overrides.")
                                     .font(.system(size: 11, weight: .regular))
