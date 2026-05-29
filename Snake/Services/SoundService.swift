@@ -16,7 +16,8 @@ class SoundService {
         let player = AVAudioPlayerNode()
         
         engine.attach(player)
-        engine.connect(player, to: engine.mainMixerNode, format: nil)
+        let format = AVAudioFormat(standardFormatWithSampleRate: 44100.0, channels: 1)!
+        engine.connect(player, to: engine.mainMixerNode, format: format)
         
         do {
             try engine.start()
@@ -41,11 +42,12 @@ class SoundService {
             }
         }
         
-        let sampleRate = engine.mainMixerNode.outputFormat(forBus: 0).sampleRate
+        let sampleRate = 44100.0
         let frameCount = AVAudioFrameCount(sampleRate * duration)
+        let format = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: 1)!
         
         guard let buffer = AVAudioPCMBuffer(
-            pcmFormat: AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: 1)!,
+            pcmFormat: format,
             frameCapacity: frameCount
         ) else { return }
         
